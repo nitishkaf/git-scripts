@@ -1,0 +1,19 @@
+#!/bin/sh
+
+git-summary() {
+  # The name of the current branch
+  current_branch=$(git symbolic-ref --short -q HEAD)
+
+  # The number of commits on the current branch
+  commit_count=$(git rev-list --count HEAD)
+
+  # The number of files in the repository
+  file_count=$(git ls-files | wc -l)
+
+  # The total number of lines of code in the repository
+  lines_of_code=$(git ls-files | xargs wc -l | awk '{total += $1} END {print total}')
+
+  # The summary
+  printf "On branch %s with %s commits\n" "$current_branch" "$commit_count"
+  printf "%s files with %s lines of code\n" "$file_count" "$lines_of_code"
+}
