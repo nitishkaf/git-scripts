@@ -4,7 +4,7 @@
 if [[ "$1" == "--help" ]]; then
 
 #Print the usage instructions
-  printf "Usage: git-summary [OPTION]\n\n"
+  printf "Usage: gs summary [OPTION]\n\n"
   printf "Print a summary of the current git repository.\n\n"
   printf "Options:\n"
   printf "  --help\t\tdisplay this help and exit\n"
