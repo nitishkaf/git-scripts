@@ -1,8 +1,17 @@
 #!/bin/sh
 
-git-summary() {
+  # Check if the git command exists
+  if git --help >/dev/null 2>&1; then
   # The name of the current branch
   current_branch=$(git symbolic-ref --short -q HEAD)
+  # Set the color based on the branch name
+if [[ $current_branch == "main" ]]; then
+  color="\033[0;31m" # Red
+elif [[ $current_branch == *"/"* ]]; then
+  color="\033[0;33m" # Yellow
+else
+  color="\033[0;32m" # Green
+fi
 
   # The number of commits on the current branch
   commit_count=$(git rev-list --count HEAD)
@@ -13,7 +22,20 @@ git-summary() {
   # The total number of lines of code in the repository
   lines_of_code=$(git ls-files | xargs wc -l | awk '{total += $1} END {print total}')
 
+  # The number of untracked files in the repository
+  untracked_count=$(git ls-files --others --exclude-standard | wc -l)
+
+  # The size of the repository (in bytes)
+  repo_size=$(du -s .git | cut -f1)
+
   # The summary
-  printf "On branch %s with %s commits\n" "$current_branch" "$commit_count"
-  printf "%s files with %s lines of code\n" "$file_count" "$lines_of_code"
-}
+  printf "On branch: $color%s\033[0m\n" "$current_branch"
+  printf "No. of Commits: %d\n" "$commit_count"
+  printf "No. of files: %d\n" "$file_count"
+  printf "Lines of code: %d\n" "$lines_of_code"
+  printf "No. of untracked files: %d\n" "$untracked_count"
+  printf "Repository size: %d bytes\n" "$repo_size"
+  else
+    # If the git command doesn't exist, print an error message
+    printf "Error: git command not found\n"
+  fi
