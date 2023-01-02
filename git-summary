@@ -1,5 +1,18 @@
 #!/bin/sh
 
+#Check if the --help flag is present
+if [[ "$1" == "--help" ]]; then
+
+#Print the usage instructions
+  printf "Usage: git-summary [OPTION]\n\n"
+  printf "Print a summary of the current git repository.\n\n"
+  printf "Options:\n"
+  printf "  --help\t\tdisplay this help and exit\n"
+
+#Exit the script
+exit 0
+fi
+
   # Check if the git command exists
   if git --help >/dev/null 2>&1; then
   # The name of the current branch
