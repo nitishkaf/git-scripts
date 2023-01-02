@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Check if the git command exists
+if git --help >/dev/null 2>&1; then
+  # Check if there is a remote branch specified
+  if [ $# -ne 1 ]; then
+    echo "ERROR: Please provide the name of the remote branch you want to pull updates from."
+    exit 1
+  fi
+
+  # Find the current branch
+  current_branch=$(git symbolic-ref --short -q HEAD)
+
+  # Stash any uncommitted changes
+  git stash
+
+  # Checkout the remote branch
+  git checkout $1
+
+  # Pull the latest updates from the remote branch
+  git pull --rebase origin $1
+
+  # Checkout the current branch
+  git checkout $current_branch
+
+  # Rebase the current branch with the updates from the remote branch
+  git rebase $1
+
+  # Apply the stashed changes
+  git stash apply
+
+  echo "Updated the $current_branch branch with changes from the $1 branch"
+else
+  # If the git command doesn't exist, print an error message
+  echo "Error: git command not found"
+fi
