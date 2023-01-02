@@ -13,7 +13,7 @@ A collection of custom git commands and scripts to improve developer productivit
 To use the scripts in this repository, clone the repository and add the `git-scripts` directory to your PATH environment variable.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/git-scripts.git
+git clone git@github.com:developernit/git-scripts.git
 echo 'export PATH=$PATH:/path/to/git-scripts' >> ~/.bashrc
 
 ```
